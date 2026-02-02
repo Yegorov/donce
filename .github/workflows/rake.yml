@@ -7,6 +7,7 @@ name: rake
   push:
     branches:
       - master
+      - test-macos-docker
   pull_request:
     branches:
       - master
@@ -21,7 +22,10 @@ jobs:
     steps:
       - name: Setup Docker on macOS
         if: runner.os == 'macOS'
-        uses: douglascamata/setup-docker-macos-action@v1
+        run: |
+          brew install colima docker
+          colima start --runtime docker --cpu 2 --memory 4
+          docker version
       - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
