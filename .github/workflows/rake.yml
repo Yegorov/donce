@@ -17,15 +17,12 @@ jobs:
       matrix:
         os: [ubuntu-24.04, macos-15-intel]
         ruby: [3.3]
-    timeout-minutes: 5
+    timeout-minutes: 10
     runs-on: ${{ matrix.os }}
     steps:
       - name: Setup Docker on macOS
         if: runner.os == 'macOS'
-        run: |
-          brew install colima docker
-          colima start --runtime docker --cpu 2 --memory 4
-          docker version
+        uses: douglascamata/setup-docker-macos-action@v1
       - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
